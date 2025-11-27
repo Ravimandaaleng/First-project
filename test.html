@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac</title>
+    <style>
+
+      
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: rgb(17, 59, 86);
+    text-align: center;
+}
+.cont{
+    height: 70vh;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game{ 
+    height: 60vmin;
+    width: 60vmin;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5vmin;
+}
+.box{
+height: 18vmin;
+width: 18vmin ;
+border-radius: 1rem;
+border: none;
+box-shadow: 0 0 1rem rgba(0,0,0,0.1);
+font-size: 8vmin;
+color: brown;
+background-color: aliceblue;
+}
+
+#re,#new{
+  padding: 1rem;
+  font-size:1.25rem;
+  background-color: rgb(9, 6, 3);
+  color: white;
+  border-radius: 1rem;
+  border: none;
+  margin-bottom: 3rem;
+}
+#msg{
+    color: rgb(101, 83, 117);
+    font-size: 8vmin;
+    
+}
+.msg-cont{
+    height: 100vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 4rem;
+
+}
+.hide{
+ display: none;
+}
+
+    </style>
+
+</head>
+<body>
+   <div class="msg-co hide">
+    <p id="msg">
+    winner
+    </p>
+<button id="new">New game</button>
+   </div>
+    
+   <main>
+     <h1>Tic-Tac-Toe</h1>
+   <div class="cont">
+    <div class="game">
+   <button class="box"></button> 
+   <button class="box"></button>
+   <button class="box"></button>
+   <button class="box"></button>
+   <button class="box"></button>
+   <button class="box"></button>
+   <button class="box"></button>
+   <button class="box"></button>
+   <button class="box"></button>
+   </div>
+   </div>
+   <button type="reset" id="re">Reset</button>
+   </main>
+    <script>
+
+let boxes=document.querySelectorAll(".box");
+let res=document.querySelector("#re");
+let neww=document.querySelector("#new");
+let msgco=document.querySelector(".msg-co");
+let ms=document.querySelector("#msg");
+let turno=true;
+
+const winpatt=[
+    [0,1,2],
+    [0,3,6],
+    [0,4,8],
+    [1,4,7],
+    [2,5,8],
+    [2,4,6],
+    [3,4,5],
+    [6,7,8],
+];
+
+const reset=()=>{
+turno=true;
+enableboxes();
+msgco.classList.add("hide");
+}
+
+boxes.forEach((box) => {
+   box.addEventListener("click",()=>{
+    if(turno)
+    {
+        box.innerText="O";
+        turno=false;
+    }
+    else{
+        box.innerText="X";
+        turno=true;
+    }
+    box.disabled=true;
+    boxCheck();
+   })
+});
+const disabledboxes=()=>{
+    for(let boxen of boxes){
+        boxen.disabled=true;
+    }
+};
+
+const enableboxes=()=>{
+    for(let boxer of boxes){
+        boxer.disabled=false;
+        boxer.innerText="";
+    }
+};
+
+const showwinner=(winner)=>{
+    msg.innerText=`Congratulation,winner is ${winner}`;
+    msgco.classList.remove("hide");
+    disabledboxes();
+}
+const boxCheck=()=>{
+    for(let pattn of winpatt){
+         let pos1=boxes[pattn[0]].innerText;
+         let pos2=boxes[pattn[1]].innerText;
+         let pos3=boxes[pattn[2]].innerText;
+
+         if(pos1!=""  && pos2!=""  &&  pos3!=""){
+            if(pos1===pos2  &&pos2==pos3){
+                showwinner(pos1); 
+            }
+         }
+    }
+}
+neww.addEventListener("click",reset);
+res.addEventListener("click",reset);
+
+    </script>
+</body>
+</html>
